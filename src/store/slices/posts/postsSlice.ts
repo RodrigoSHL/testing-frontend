@@ -23,6 +23,7 @@ export const postsSlice = createSlice({
             state.isLoading = true;
         },
         setPosts: (state, action) => { 
+            state.isLoading = false;
             console.log(action.payload);
         },
         addPost: (state, action: PayloadAction<Post>) => {
