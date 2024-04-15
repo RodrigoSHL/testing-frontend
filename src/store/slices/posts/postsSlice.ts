@@ -1,29 +1,37 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Post {
-  name: string;
-  description: string;
+    name: string;
+    description: string;
 }
 
 interface PostsState {
-  posts: Post[];
+    posts: Post[];
+    isLoading: boolean;
 }
 
 const initialState: PostsState = {
-  posts: [],
+    posts: [],
+    isLoading: false,
 };
 
 export const postsSlice = createSlice({
-  name: 'posts',
-  initialState,
-  reducers: {
-    addPost: (state, action: PayloadAction<Post>) => {
-      state.posts.push(action.payload);
+    name: 'posts',
+    initialState,
+    reducers: {
+        start: (state) => { 
+            state.isLoading = true;
+        },
+        setPosts: (state, action) => { 
+            console.log(action.payload);
+        },
+        addPost: (state, action: PayloadAction<Post>) => {
+            state.posts.push(action.payload);
+        },
+        deletePost: (state, action: PayloadAction<number>) => {
+            state.posts.splice(action.payload, 1);
+        },
     },
-    deletePost: (state, action: PayloadAction<number>) => {
-      state.posts.splice(action.payload, 1);
-    },
-  },
 });
 
-export const { addPost, deletePost } = postsSlice.actions;
+export const { addPost, deletePost, start, setPosts } = postsSlice.actions;
