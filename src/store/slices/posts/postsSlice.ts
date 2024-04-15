@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const templateSlice = createSlice({
+export const postsSlice = createSlice({
 name: 'name',
     initialState: {
         counter: 10
@@ -14,4 +14,4 @@ name: 'name',
 
 
 // Action creators are generated for each case reducer function
-export const { increment } = templateSlice.actions;
+export const { increment } = postsSlice.actions;
