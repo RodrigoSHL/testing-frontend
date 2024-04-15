@@ -1,17 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface Post {
+  name: string;
+  description: string;
+}
+
+interface PostsState {
+  posts: Post[];
+}
+
+const initialState: PostsState = {
+  posts: [],
+};
 
 export const postsSlice = createSlice({
-name: 'name',
-    initialState: {
-        counter: 10
+  name: 'posts',
+  initialState,
+  reducers: {
+    addPost: (state, action: PayloadAction<Post>) => {
+      state.posts.push(action.payload);
     },
-    reducers: {
-        increment: (state, /* action */ ) => {
-            state.counter += 1;
-        },
-    }
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts.splice(action.payload, 1);
+    },
+  },
 });
 
-
-// Action creators are generated for each case reducer function
-export const { increment } = postsSlice.actions;
+export const { addPost, deletePost } = postsSlice.actions;
