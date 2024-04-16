@@ -1,9 +1,9 @@
 // Posts.tsx
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Post, addPost, deletePost } from '../../store/slices/posts/postsSlice';
+import { Post } from '../../store/slices/posts/postsSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getPosts } from '../../store/slices/posts/thunks';
+import { createPost, getPosts, deletePost, findPost } from '../../store/slices/posts/thunks';
 
 const Posts: React.FC = () => {
     const [newName, setNewName] = useState<string>('');
@@ -15,7 +15,7 @@ const Posts: React.FC = () => {
 
     useEffect(() => {
         dispatch(getPosts());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -24,18 +24,28 @@ const Posts: React.FC = () => {
             name: newName,
             description: newDescription
         };
-        dispatch(addPost(newPost));
+        dispatch(createPost(newPost));
         setNewName('');
         setNewDescription('');
     };
 
-    const handleDelete = (index: number) => {
+    const handleDelete = (index: string) => {
+        console.log('index', index)
         dispatch(deletePost(index));
     };
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
+
+    const handleSearch = () => {
+        dispatch(findPost(search))
+    }
+
+    const handleClean = () => {
+        setSearch('');
+        dispatch(getPosts());
+    }
 
     return (
         <div className="container mt-4">
@@ -44,7 +54,10 @@ const Posts: React.FC = () => {
                     <input type="text" className="form-control" value={search} onChange={handleSearchChange} />
                 </div>
                 <div className="col-auto">
-                    <button className="btn btn-primary">Search</button>
+                    <button className="btn btn-primary" onClick={handleSearch}>Search</button>
+                </div>
+                <div className="col-auto">
+                    <button className="btn btn-primary" onClick={handleClean}>Clean</button>
                 </div>
             </div>
             <table className="table">
@@ -61,7 +74,7 @@ const Posts: React.FC = () => {
                             <td>{item.name}</td>
                             <td>{item.description}</td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => handleDelete(index)}>Delete</button>
+                                <button className="btn btn-danger" onClick={() => handleDelete(item.id || '')}>Delete</button>
                             </td>
                         </tr>
                     ))}

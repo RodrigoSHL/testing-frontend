@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Post {
+    id?: string;
     name: string;
     description: string;
 }
@@ -24,15 +25,18 @@ export const postsSlice = createSlice({
         },
         setPosts: (state, action) => { 
             state.isLoading = false;
-            console.log(action.payload);
+            state.posts = action.payload;
         },
         addPost: (state, action: PayloadAction<Post>) => {
             state.posts.push(action.payload);
         },
-        deletePost: (state, action: PayloadAction<number>) => {
-            state.posts.splice(action.payload, 1);
+        removePost: (state, action) => {
+            state.posts = state.posts.filter((post) => post.id !== action.payload);
         },
+        searchPost: (state, action: PayloadAction<string>) => {
+            state.posts = state.posts.filter((post) => post.name.includes(action.payload));
+        }
     },
 });
 
-export const { addPost, deletePost, start, setPosts } = postsSlice.actions;
+export const { addPost, removePost, start, setPosts, searchPost } = postsSlice.actions;
