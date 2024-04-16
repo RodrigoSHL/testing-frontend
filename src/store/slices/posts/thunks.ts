@@ -1,5 +1,12 @@
 import { Dispatch } from "redux";
-import { Post, addPost, setPosts, start, removePost, searchPost } from "./postsSlice";
+import {
+  Post,
+  addPost,
+  setPosts,
+  start,
+  removePost,
+  searchPost,
+} from "./postsSlice";
 import postsApi from "../../../api/postsApi";
 
 export const getPosts = () => {
@@ -18,8 +25,8 @@ export const getPosts = () => {
 export const createPost = (post: Post) => {
   return async (dispatch: Dispatch) => {
     try {
-      await postsApi.post("/post", post);
-      dispatch(addPost(post));
+      const { data } = await postsApi.post("/post", post);
+      dispatch(addPost(data));
     } catch (error) {
       console.error("Error to create post:", error);
     }
