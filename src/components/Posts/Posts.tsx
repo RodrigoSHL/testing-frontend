@@ -30,7 +30,6 @@ const Posts: React.FC = () => {
     };
 
     const handleDelete = (index: string) => {
-        console.log('index', index)
         dispatch(deletePost(index));
     };
 
