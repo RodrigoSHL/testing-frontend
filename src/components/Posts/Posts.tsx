@@ -17,8 +17,7 @@ const Posts: React.FC = () => {
         dispatch(getPosts());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-
+    
     const handleCreateNew = () => {
         const newPost: Post = {
             name: newName,
